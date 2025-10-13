@@ -1,0 +1,163 @@
+import type { UserInfo, Channel, ContentItem, MyStorage, CustomSubject } from '../types';
+
+// Mock 사용자 정보
+export const mockUserInfo: UserInfo = {
+  id: 'user001',
+  name: '온라인테스트',
+  nickname: '온라인테스트',
+  school: '마포중학교',
+  location: '서울특별시',
+  profileImage: '/asset2/user/images/main/profile_man.png',
+  messageCount: 0,
+  channelInviteCount: 0,
+  followerCount: 2,
+  followingCount: 3,
+};
+
+// Mock 내 보관함 정보
+export const mockMyStorage: MyStorage = {
+  usedSpace: '132.6MB',
+  totalSpace: '5GB',
+  packageCount: 28,
+  contentsCount: 90,
+  questionCount: 19,
+  examCount: 5,
+  sharedCount: 26,
+  totalCount: 168,
+};
+
+// Mock 내 채널 목록
+export const mockMyChannels: Channel[] = [];
+
+// Mock 구독 채널 소식
+export const mockSubscribedChannelNews: ContentItem[] = [
+  {
+    id: '315399',
+    title: '[문화] 다문화 퀴즈',
+    thumbnail: '/attachfiles/mt/84/MT_202509260909240300.png',
+    channelName: '상권쌤',
+    channelId: 'ch001',
+    type: 'contents',
+    category: '문화',
+    school: '초등',
+    grade: '3',
+    semester: '1',
+    subject: '사회',
+    likeCount: 45,
+    liked: false,
+    createdAt: '2025-09-26',
+  },
+  {
+    id: '315310',
+    title: '[만들기] 풍요로운 가을의 농부',
+    thumbnail: '/attachfiles/mt/84/MT_202509241145076080.png',
+    channelName: '상권쌤',
+    channelId: 'ch001',
+    type: 'contents',
+    category: '만들기',
+    school: '초등',
+    grade: '2',
+    semester: '2',
+    subject: '미술',
+    likeCount: 32,
+    liked: false,
+    createdAt: '2025-09-24',
+  },
+  {
+    id: '315281',
+    title: '[활동지] 공룡 빙고 놀이',
+    thumbnail: '/attachfiles/mt/84/MT_202509240931582340.png',
+    channelName: '상권쌤',
+    channelId: 'ch001',
+    type: 'contents',
+    category: '활동지',
+    school: '초등',
+    grade: '1',
+    semester: '1',
+    subject: '과학',
+    likeCount: 78,
+    liked: true,
+    createdAt: '2025-09-24',
+  },
+  {
+    id: '315232',
+    title: 'AI 시대, 챗GPT와 함께하는 디지털 리터러시 교육 - 3차시',
+    thumbnail: '/attachfiles/mt/87/MT_202509230750295310.png',
+    channelName: '신미래 선생님의 스마트 교실',
+    channelId: 'ch002',
+    type: 'contents',
+    category: 'AI교육',
+    school: '중등',
+    grade: '1',
+    semester: '1',
+    subject: '정보',
+    likeCount: 156,
+    liked: true,
+    createdAt: '2025-09-23',
+  },
+];
+
+// Mock 맞춤형 수업자료
+export const mockCustomContents: ContentItem[] = [
+  {
+    id: '119440',
+    title: '초등 1학년 국어 - 이야기를 읽고 생각을 나누어요',
+    thumbnail: 'https://ictapn.edunet.net/apnfiles/4624/d175f0b3979e4bd48cabf8527014e2a5/da2da54bf27d4a3a9fca06d3d224efe2.png',
+    channelName: '아스펜',
+    channelId: 'ch_aspen',
+    type: 'package',
+    category: '교과',
+    school: '초등',
+    grade: '1',
+    semester: '1',
+    subject: '국어',
+    likeCount: 234,
+    liked: false,
+    createdAt: '2025-09-20',
+    badges: ['아스펜'],
+  },
+  {
+    id: '119441',
+    title: '초등 1학년 수학 - 9까지의 수',
+    thumbnail: 'https://ictapn.edunet.net/apnfiles/math/elem1_9numbers.png',
+    channelName: '수학나라',
+    channelId: 'ch_math',
+    type: 'package',
+    category: '교과',
+    school: '초등',
+    grade: '1',
+    semester: '1',
+    subject: '수학',
+    likeCount: 189,
+    liked: false,
+    createdAt: '2025-09-19',
+  },
+  {
+    id: '119442',
+    title: '초등 2학년 국어 - 인물의 마음을 짐작해요',
+    thumbnail: 'https://ictapn.edunet.net/apnfiles/korean/elem2_character.png',
+    channelName: '국어샘',
+    channelId: 'ch_korean',
+    type: 'contents',
+    category: '교과',
+    school: '초등',
+    grade: '2',
+    semester: '1',
+    subject: '국어',
+    likeCount: 145,
+    liked: true,
+    createdAt: '2025-09-18',
+  },
+];
+
+// Mock 맞춤 과목 목록
+export const mockCustomSubjects: CustomSubject[] = [
+  { schoolLevel: '초등', grade: 1, subjectId: 'E12_KOR_국어', subjectName: '국어' },
+  { schoolLevel: '초등', grade: 1, subjectId: 'E12_RWR_바슬즐', subjectName: '바슬즐' },
+  { schoolLevel: '초등', grade: 1, subjectId: 'E12_MAT_수학', subjectName: '수학' },
+  { schoolLevel: '초등', grade: 1, subjectId: 'E12_CEA_안전한_생활', subjectName: '안전한 생활' },
+  { schoolLevel: '초등', grade: 2, subjectId: 'E12_KOR_국어', subjectName: '국어' },
+  { schoolLevel: '초등', grade: 2, subjectId: 'E12_RWR_바슬즐', subjectName: '바슬즐' },
+  { schoolLevel: '초등', grade: 2, subjectId: 'E12_MAT_수학', subjectName: '수학' },
+  { schoolLevel: '초등', grade: 2, subjectId: 'E12_CEA_안전한_생활', subjectName: '안전한 생활' },
+];

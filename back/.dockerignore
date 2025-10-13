@@ -1,0 +1,26 @@
+.gradle
+build/
+!build/libs/*.jar
+.git
+.gitignore
+README.md
+Dockerfile
+.dockerignore
+
+# IDE files
+.idea/
+.vscode/
+*.iml
+*.iws
+*.ipr
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Test files
+src/test/

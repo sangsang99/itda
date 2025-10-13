@@ -1,0 +1,71 @@
+# ==================================
+# ITDA 프로젝트 루트 .gitignore
+# ==================================
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.settings/
+*.sublime-*
+
+# Docker
+.docker/
+docker-compose.override.yml
+
+# Docker 볼륨 및 데이터
+mysql-data/
+redis-data/
+jenkins_home/
+
+# 로그 파일
+*.log
+logs/
+*.log.*
+
+# 임시 파일
+*.tmp
+*.temp
+*.bak
+*.cache
+tmp/
+temp/
+
+# 환경 변수 파일
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# 빌드 산출물 (하위 프로젝트별로 관리)
+**/build/
+**/dist/
+**/target/
+**/out/
+
+# 의존성 디렉토리
+**/node_modules/
+**/.gradle/
+**/.m2/
+
+# 테스트 커버리지
+**/coverage/
+**/.nyc_output/
+**/htmlcov/
+**/.coverage
+
+# 기타
+.claude/
+*.swp
+*.swo
+*.swn

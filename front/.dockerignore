@@ -1,0 +1,32 @@
+node_modules
+npm-debug.log
+.git
+.gitignore
+README.md
+Dockerfile
+.dockerignore
+
+# IDE files
+.idea/
+.vscode/
+*.iml
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Build files
+dist/
+build/
+
+# Logs
+*.log
+logs/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Coverage directory used by tools like istanbul
+coverage/

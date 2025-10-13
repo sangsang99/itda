@@ -1,0 +1,28 @@
+# ==================================
+# Nginx Web Server .gitignore
+# ==================================
+
+# Logs
+*.log
+logs/
+access.log
+error.log
+
+# Cache
+cache/
+*.cache
+
+# Temporary files
+*.tmp
+*.temp
+*~
+
+# macOS
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
+
+# Nginx 런타임 파일
+*.pid

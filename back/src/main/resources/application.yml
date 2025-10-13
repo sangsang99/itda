@@ -1,0 +1,56 @@
+spring:
+  application:
+    name: itda-api
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info, metrics
+  endpoint:
+    health:
+      show-details: when_authorized
+
+
+app:
+  jwt:
+    secret: itda-jwt-secret-key-2024-very-long-secret-for-security-purpose
+    expiration: 86400000 # 24 hours in milliseconds
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: docker
+
+  datasource:
+    url: jdbc:mysql://${DB_HOST:itda-mysql}:${DB_PORT:3306}/${DB_NAME:itda}?useSSL=false&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: ${DB_USER:idolphins2020}
+    password: ${DB_PASSWORD:idolphinspass}
+
+  data:
+    redis:
+      host: ${REDIS_HOST:itda-redis}
+      port: ${REDIS_PORT:6379}
+
+logging:
+  level:
+    root: INFO
+    com.itda: INFO

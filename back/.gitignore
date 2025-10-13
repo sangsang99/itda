@@ -1,0 +1,83 @@
+# ==================================
+# Spring Boot Backend .gitignore
+# ==================================
+
+# Gradle
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
+gradlew.bat
+gradle-app.setting
+
+# IDE
+.idea/
+.vscode/
+*.iws
+*.iml
+*.ipr
+out/
+.settings/
+.classpath
+.project
+.factorypath
+
+# Eclipse
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+bin/
+
+# IntelliJ
+.idea
+*.iws
+*.iml
+*.ipr
+out/
+
+# NetBeans
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+# VS Code
+.vscode/
+
+# macOS
+.DS_Store
+
+# 환경 변수
+.env
+application-local.yml
+application-local.properties
+
+# 로그
+*.log
+logs/
+
+# 빌드 산출물
+target/
+build/
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+# 테스트 결과
+test-results/
+.test/
+
+# JVM
+hs_err_pid*
+replay_pid*
+
+# Temporary files
+*.tmp
+*.bak
+*~
+.cache/

@@ -1,0 +1,111 @@
+.tea-information {
+  background: #fff;
+  border-radius: 8px;
+  padding: 24px;
+  margin-bottom: 20px;
+}
+
+.tea-profile {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.profile-img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: none;
+  padding: 0;
+  background: transparent;
+}
+
+.profile-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.tea-center-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.tea-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.tea-info .name {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 20px;
+}
+
+.tea-info .name b {
+  font-weight: 600;
+}
+
+.tea-edit {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 14px;
+  font-weight: normal;
+}
+
+.btn-nicknameset {
+  width: 16px;
+  height: 16px;
+  background: url('/asset2/user/images/main/icon_edit.svg') no-repeat center;
+  background-size: contain;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.agency {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  color: #666;
+}
+
+.agency img {
+  width: 16px;
+  height: 16px;
+}
+
+.tea-member {
+  display: flex;
+  gap: 20px;
+}
+
+.tea-member ul {
+  display: flex;
+  gap: 16px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.tea-member .num {
+  font-size: 14px;
+  color: #666;
+}
+
+.tea-member .num a {
+  color: #0e97c4;
+  text-decoration: none;
+  margin-left: 4px;
+}
+
+.tea-member .num i {
+  font-style: normal;
+  font-weight: 600;
+}
