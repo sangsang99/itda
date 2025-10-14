@@ -2,6 +2,12 @@ spring:
   application:
     name: itda-api
 
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 100MB
+      max-request-size: 100MB
+
   jpa:
     hibernate:
       ddl-auto: create-drop
@@ -32,6 +38,12 @@ app:
   jwt:
     secret: itda-jwt-secret-key-2024-very-long-secret-for-security-purpose
     expiration: 86400000 # 24 hours in milliseconds
+
+file:
+  upload:
+    base-path: ./asset
+    max-file-size: 100MB
+    max-request-size: 100MB
 
 ---
 
