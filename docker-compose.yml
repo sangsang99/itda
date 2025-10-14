@@ -111,12 +111,12 @@ services:
   itda-web:
     image: nginx:1.24-alpine
     container_name: itda-web
+    build: 
+      context: ./web
+      dockerfile: Dockerfile
     restart: always
     ports:
       - "180:180"
-    volumes:
-      - ./web/nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./web/static:/usr/share/nginx/html:ro
     depends_on:
       - itda-frontend
       - itda-backend
