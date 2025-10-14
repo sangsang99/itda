@@ -84,7 +84,7 @@ export const MainPage = () => {
               <div className="tit-area">
                 <span>내 채널</span>
                 <div className="btn">
-                  <a href="/les/main/list.do?openModal=3">채널개설</a>
+                  <a href="#">채널개설</a>
                 </div>
               </div>
               <div className="mychannel-content">
@@ -100,7 +100,7 @@ export const MainPage = () => {
             <section className="subscribed-news">
               <div className="section-header">
                 <h2>구독 채널 소식</h2>
-                <a href="/les/main/list.do" className="more-link">
+                <a href="#" className="more-link">
                   더보기 →
                 </a>
               </div>
@@ -142,7 +142,7 @@ export const MainPage = () => {
                 <button
                   type="button"
                   className="button black"
-                  onClick={() => (window.location.href = '/intrstCourse.do')}
+                  onClick={() => alert('맞춤자료 상세보기')}
                 >
                   맞춤자료 상세보기
                   <img src="/asset2/user/images/arrow-right.svg" alt="상세보기" />

@@ -20,36 +20,36 @@ export const Header = ({ userInfo }: HeaderProps) => {
     {
       title: '채널서비스',
       items: [
-        { name: '교원채널', link: '/les/main/list.do?offerSeCode=06' },
-        { name: '올해의 채널', link: '/les/main/list.do?offerSeCode=05' },
-        { name: '꾸러미제작단', link: '/les/main/list.do?offerSeCode=08' },
-        { name: '기관 채널', link: '/les/main/list.do?offerSeCode=01' },
+        { name: '교원채널', link: '#' },
+        { name: '올해의 채널', link: '#' },
+        { name: '꾸러미제작단', link: '#' },
+        { name: '기관 채널', link: '#' },
       ],
     },
     {
       title: '교수학습자료',
       items: [
-        { name: '교과', link: '/search.do?searchSelectTabMain=1' },
-        { name: '비교과', link: '/search.do?searchSelectTabMain=2' },
-        { name: '요소자료', link: '/search.do?searchSelectTabMain=3' },
+        { name: '교과', link: '#' },
+        { name: '비교과', link: '#' },
+        { name: '요소자료', link: '#' },
       ],
     },
     {
       title: '내자료등록',
       items: [
-        { name: '콘텐츠 등록', link: '/lok/cts/view.do?viewFromPage=lok' },
-        { name: '콘텐츠 일괄등록', link: '/lok/cts/bndeRegView.do' },
-        { name: '꾸러미 등록', link: '/pkg/view.do?viewFromPage=lok' },
-        { name: '문항 등록', link: '/qst/index.do' },
-        { name: '시험지 등록', link: '/ppr/view.do' },
+        { name: '콘텐츠 등록', link: '/content/register', internal: true },
+        { name: '콘텐츠 일괄등록', link: '#' },
+        { name: '꾸러미 등록', link: '#' },
+        { name: '문항 등록', link: '#' },
+        { name: '시험지 등록', link: '#' },
       ],
     },
     {
       title: '안내',
       items: [
-        { name: '잇다란?', link: '/info.do?id=1' },
-        { name: '공지사항', link: '/cop/bbs/selectBoardList2.do?bbsId=BBSMSTR_000000000003' },
-        { name: '자주하는 질문', link: '/cop/bbs/selectBoardList.do?bbsId=BBSMSTR_000000000004' },
+        { name: '잇다란?', link: '#' },
+        { name: '공지사항', link: '#' },
+        { name: '자주하는 질문', link: '#' },
         { name: '매뉴얼', link: 'https://itda.edunet.net/asset2/user/guide/ITDA_Intruduce_Ver.1.3.pdf', external: true },
       ],
     },
@@ -96,7 +96,7 @@ export const Header = ({ userInfo }: HeaderProps) => {
               <div className="menu-wrap">
                 {menuItems.map((menu, index) => (
                   <div key={index} className="menu-group">
-                    {menu.items.map((item) => (
+                    {menu.items.map((item: any) => (
                       item.external ? (
                         <a
                           key={item.name}
@@ -107,6 +107,14 @@ export const Header = ({ userInfo }: HeaderProps) => {
                         >
                           {item.name}
                         </a>
+                      ) : item.internal ? (
+                        <Link
+                          key={item.name}
+                          className="menu-button"
+                          to={item.link}
+                        >
+                          {item.name}
+                        </Link>
                       ) : (
                         <a key={item.name} className="menu-button" href={item.link}>
                           {item.name}
@@ -192,17 +200,17 @@ export const Header = ({ userInfo }: HeaderProps) => {
               <div className="my-profile">
                 <h3>{userInfo?.name || '사용자'} 선생님</h3>
                 <ul>
-                  <li><a href="/uss/umt/cmm/EgovUserUpdateView.do">프로필 관리</a></li>
-                  <li><a href="/nte/receive/list.do">쪽지함</a></li>
+                  <li><a href="#">프로필 관리</a></li>
+                  <li><a href="#">쪽지함</a></li>
                   <hr className="profile-hr" />
-                  <li><a href="/lok/main/list.do">내 보관함</a></li>
-                  <li><a href="/les/main/list.do?openModal=3">채널 개설 페이지</a></li>
-                  <li><a href="/les/sttus/list.do">채널 신청현황</a></li>
-                  <li><a href="/cts/act/sttus/list.do">내가 올린 자료 이용현황</a></li>
+                  <li><a href="#">내 보관함</a></li>
+                  <li><a href="#">채널 개설 페이지</a></li>
+                  <li><a href="#">채널 신청현황</a></li>
+                  <li><a href="#">내가 올린 자료 이용현황</a></li>
                   <hr className="profile-hr" />
                   <li><a href="https://ncs.edunet.net/ncs/main/521" target="_blank" rel="noopener noreferrer">문의 및 신고하기</a></li>
                   <hr className="profile-hr" />
-                  <li><a href="/uat/uia/actionLogout.do">로그아웃</a></li>
+                  <li><a href="#">로그아웃</a></li>
                 </ul>
               </div>
             )}

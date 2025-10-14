@@ -42,11 +42,11 @@ RUN chown -R itda:itda /app
 USER itda
 
 # Expose port
-EXPOSE 15173
+EXPOSE 5173
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=3s --start-period=30s --retries=3 \
-    CMD wget --no-verbose --tries=1 --spider http://localhost:15173 || exit 1
+    CMD wget --no-verbose --tries=1 --spider http://localhost:5173 || exit 1
 
 # Start the application
-CMD ["serve", "-s", "dist", "-l", "15173"]
+CMD ["serve", "-s", "dist", "-l", "5173"]
