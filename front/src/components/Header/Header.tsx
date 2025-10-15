@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../contexts/AuthContext';
 import './Header.css';
 import { handleImageError, DEFAULT_PROFILE_SVG } from '../../utils/imageUtils';
 
@@ -11,10 +12,19 @@ interface HeaderProps {
   };
 }
 
-export const Header = ({ userInfo }: HeaderProps) => {
+export const Header = ({ userInfo: propsUserInfo }: HeaderProps) => {
+  const navigate = useNavigate();
+  const { user, isAuthenticated, logout } = useAuth();
   const [searchKeyword, setSearchKeyword] = useState('');
   const [showNotification, setShowNotification] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
+
+  // AuthContext의 user가 있으면 우선 사용, 없으면 props의 userInfo 사용
+  const userInfo = user ? {
+    name: user.fullName,
+    profileImage: DEFAULT_PROFILE_SVG, // 실제 프로필 이미지가 있다면 user.profileImage 사용
+    messageCount: 0, // 실제 메시지 카운트가 있다면 해당 값 사용
+  } : propsUserInfo;
 
   const menuItems = [
     {
@@ -200,17 +210,33 @@ export const Header = ({ userInfo }: HeaderProps) => {
               <div className="my-profile">
                 <h3>{userInfo?.name || '사용자'} 선생님</h3>
                 <ul>
-                  <li><a href="#">프로필 관리</a></li>
-                  <li><a href="#">쪽지함</a></li>
+                  <li><a href="#" onClick={(e) => { e.preventDefault(); alert('준비 중입니다.'); }}>프로필 관리</a></li>
+                  <li><a href="#" onClick={(e) => { e.preventDefault(); alert('준비 중입니다.'); }}>쪽지함</a></li>
                   <hr className="profile-hr" />
-                  <li><a href="#">내 보관함</a></li>
-                  <li><a href="#">채널 개설 페이지</a></li>
-                  <li><a href="#">채널 신청현황</a></li>
-                  <li><a href="#">내가 올린 자료 이용현황</a></li>
+                  <li><a href="#" onClick={(e) => { e.preventDefault(); alert('준비 중입니다.'); }}>내 보관함</a></li>
+                  <li><a href="#" onClick={(e) => { e.preventDefault(); alert('준비 중입니다.'); }}>채널 개설 페이지</a></li>
+                  <li><a href="#" onClick={(e) => { e.preventDefault(); alert('준비 중입니다.'); }}>채널 신청현황</a></li>
+                  <li><a href="#" onClick={(e) => { e.preventDefault(); alert('준비 중입니다.'); }}>내가 올린 자료 이용현황</a></li>
                   <hr className="profile-hr" />
                   <li><a href="https://ncs.edunet.net/ncs/main/521" target="_blank" rel="noopener noreferrer">문의 및 신고하기</a></li>
                   <hr className="profile-hr" />
-                  <li><a href="#">로그아웃</a></li>
+                  {isAuthenticated ? (
+                    <li>
+                      <a href="#" onClick={async (e) => {
+                        e.preventDefault();
+                        try {
+                          await logout();
+                          setShowProfile(false);
+                          navigate('/login');
+                        } catch (error) {
+                          console.error('로그아웃 실패:', error);
+                          alert('로그아웃에 실패했습니다.');
+                        }
+                      }}>로그아웃</a>
+                    </li>
+                  ) : (
+                    <li><Link to="/login" onClick={() => setShowProfile(false)}>로그인</Link></li>
+                  )}
                 </ul>
               </div>
             )}

@@ -18,7 +18,6 @@ spring:
 server:
   port: 8080
   servlet:
-    context-path: /api
     encoding:
       charset: UTF-8
       enabled: true
@@ -41,7 +40,7 @@ app:
 
 file:
   upload:
-    base-path: ./asset
+    base-path: /app/asset
     max-file-size: 100MB
     max-request-size: 100MB
 
@@ -65,4 +64,5 @@ spring:
 logging:
   level:
     root: INFO
-    com.itda: INFO
+    com.itda: DEBUG
+    com.itda.security: DEBUG

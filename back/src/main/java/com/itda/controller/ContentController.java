@@ -2,7 +2,9 @@ package com.itda.controller;
 
 import com.itda.dto.ContentRequest;
 import com.itda.dto.ContentResponse;
+import com.itda.entity.User;
 import com.itda.service.ContentService;
+import com.itda.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -11,6 +13,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -20,9 +24,24 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/contents")
 @RequiredArgsConstructor
+@CrossOrigin(origins = {"http://localhost:5173", "http://localhost:3000", "http://localhost:15173"})
 public class ContentController {
 
     private final ContentService contentService;
+    private final UserService userService;
+
+    /**
+     * 인증된 사용자 정보를 가져오는 헬퍼 메서드
+     */
+    private Long getAuthenticatedUserId() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated()) {
+            throw new RuntimeException("인증되지 않은 사용자입니다");
+        }
+        String username = authentication.getName();
+        User user = userService.findByUsername(username);
+        return user.getUserId();
+    }
 
     /**
      * 콘텐츠 등록
@@ -31,9 +50,9 @@ public class ContentController {
     public ResponseEntity<ContentResponse> createContent(
             @RequestPart("content") ContentRequest request,
             @RequestPart(value = "file", required = false) MultipartFile file,
-            @RequestPart(value = "thumbnail", required = false) MultipartFile thumbnail,
-            @RequestHeader("X-User-Id") Long userId) {
+            @RequestPart(value = "thumbnail", required = false) MultipartFile thumbnail) {
 
+        Long userId = getAuthenticatedUserId();
         log.info("콘텐츠 등록 요청: userId={}, title={}", userId, request.getTitle());
 
         try {
@@ -53,9 +72,9 @@ public class ContentController {
             @PathVariable Long contentId,
             @RequestPart("content") ContentRequest request,
             @RequestPart(value = "file", required = false) MultipartFile file,
-            @RequestPart(value = "thumbnail", required = false) MultipartFile thumbnail,
-            @RequestHeader("X-User-Id") Long userId) {
+            @RequestPart(value = "thumbnail", required = false) MultipartFile thumbnail) {
 
+        Long userId = getAuthenticatedUserId();
         log.info("콘텐츠 수정 요청: contentId={}, userId={}", contentId, userId);
 
         try {
@@ -90,10 +109,9 @@ public class ContentController {
      * 콘텐츠 삭제
      */
     @DeleteMapping("/{contentId}")
-    public ResponseEntity<Void> deleteContent(
-            @PathVariable Long contentId,
-            @RequestHeader("X-User-Id") Long userId) {
+    public ResponseEntity<Void> deleteContent(@PathVariable Long contentId) {
 
+        Long userId = getAuthenticatedUserId();
         log.info("콘텐츠 삭제 요청: contentId={}, userId={}", contentId, userId);
 
         try {

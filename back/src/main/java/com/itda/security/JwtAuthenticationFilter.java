@@ -32,9 +32,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     FilterChain filterChain) throws ServletException, IOException {
         try {
             String jwt = getJwtFromRequest(request);
+            log.info("JWT Filter - Processing: {} {}, JWT present: {}, Content-Type: {}",
+                    request.getMethod(), request.getRequestURI(), jwt != null, request.getContentType());
 
             if (StringUtils.hasText(jwt) && jwtUtil.validateToken(jwt)) {
                 String username = jwtUtil.getUsernameFromToken(jwt);
+                log.info("JWT Filter - Token valid, username: {}", username);
                 var user = userService.findByUsername(username);
 
                 // 사용자 권한 설정
@@ -47,9 +50,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);
+                log.info("JWT Filter - Successfully authenticated user: {} with role: {}", username, user.getUserType());
+            } else if (StringUtils.hasText(jwt)) {
+                log.warn("JWT Filter - Invalid JWT token for request: {} {}", request.getMethod(), request.getRequestURI());
+            } else {
+                log.info("JWT Filter - No JWT token found for request: {} {}", request.getMethod(), request.getRequestURI());
             }
         } catch (Exception ex) {
-            log.error("Could not set user authentication in security context", ex);
+            log.error("JWT Filter - Could not set user authentication in security context for request: {} {}",
+                    request.getMethod(), request.getRequestURI(), ex);
         }
 
         filterChain.doFilter(request, response);

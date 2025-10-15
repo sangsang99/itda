@@ -33,8 +33,9 @@ RUN groupadd -r itda && useradd -r -g itda itda
 # Copy JAR from builder stage
 COPY --from=builder /app/build/libs/*.jar app.jar
 
-# Change ownership
-RUN chown itda:itda app.jar
+# Create asset directory and change ownership
+RUN mkdir -p /app/asset && \
+    chown -R itda:itda /app
 
 # Switch to non-root user
 USER itda

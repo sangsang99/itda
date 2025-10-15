@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../contexts/AuthContext';
 import { Header } from '../../components/Header/Header';
 import Footer from '../../components/Footer';
 import { UserProfile } from '../../components/UserProfile/UserProfile';
@@ -16,6 +18,8 @@ import { handleImageError, createDefaultThumbnail } from '../../utils/imageUtils
 import './MainPage.css';
 
 export const MainPage = () => {
+  const navigate = useNavigate();
+  const { isAuthenticated, user } = useAuth();
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
   const [myStorage, setMyStorage] = useState<MyStorageType | null>(null);
   const [subscribedNews, setSubscribedNews] = useState<ContentItem[]>([]);
@@ -23,12 +27,23 @@ export const MainPage = () => {
   const [customSubjects, setCustomSubjects] = useState<CustomSubject[]>([]);
   const [loading, setLoading] = useState(true);
 
+  // 로그인하지 않은 경우 로그인 페이지로 리다이렉트
+  useEffect(() => {
+    if (!isAuthenticated) {
+      navigate('/login');
+    }
+  }, [isAuthenticated, navigate]);
+
   useEffect(() => {
     const loadData = async () => {
+      if (!isAuthenticated) {
+        return;
+      }
+
       try {
         setLoading(true);
 
-        const [user, storage, news, contents, subjects] = await Promise.all([
+        const [mockUser, storage, news, contents, subjects] = await Promise.all([
           getUserInfo(),
           getMyStorage(),
           getSubscribedChannelNews(),
@@ -36,7 +51,7 @@ export const MainPage = () => {
           getCustomSubjects(),
         ]);
 
-        setUserInfo(user);
+        setUserInfo(mockUser);
         setMyStorage(storage);
         setSubscribedNews(news);
         setCustomContents(contents);
@@ -49,7 +64,7 @@ export const MainPage = () => {
     };
 
     loadData();
-  }, []);
+  }, [isAuthenticated]);
 
   if (loading) {
     return (
@@ -128,7 +143,7 @@ export const MainPage = () => {
           <section className="custom-contents-section">
             <div className="section-header-custom">
               <h2 className="section-title">
-                <b>{userInfo?.nickname || '선생님'}</b> 선생님의 맞춤자료
+                <b>{user?.fullName || userInfo?.nickname || '선생님'}</b> 선생님의 맞춤자료
               </h2>
               <div className="section-actions">
                 <button

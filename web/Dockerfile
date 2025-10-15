@@ -2,7 +2,7 @@
 FROM nginx:latest
 
 # 컨테이너 내부 경로에 코드 복사
-COPY web/nginx.conf /etc/nginx/nginx.conf
+COPY ./nginx.conf /etc/nginx/nginx.conf
 
 # 필요 시 app 코드도 복사
 COPY . /app

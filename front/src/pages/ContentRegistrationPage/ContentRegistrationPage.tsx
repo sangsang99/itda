@@ -1,14 +1,24 @@
-import { useState, FormEvent } from 'react';
+import { useState, FormEvent, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Header } from '../../components/Header/Header';
 import Footer from '../../components/Footer';
+import { useAuth } from '../../contexts/AuthContext';
 import './ContentRegistrationPage.css';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:18080/api';
 
 export const ContentRegistrationPage = () => {
   const navigate = useNavigate();
+  const { isAuthenticated, user } = useAuth();
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // 로그인하지 않은 경우 로그인 페이지로 리다이렉트
+  useEffect(() => {
+    if (!isAuthenticated) {
+      alert('로그인이 필요합니다.');
+      navigate('/login');
+    }
+  }, [isAuthenticated, navigate]);
 
   // Form state
   const [title, setTitle] = useState('');
@@ -119,14 +129,19 @@ export const ContentRegistrationPage = () => {
         formData.append('thumbnail', thumbnail);
       }
 
-      // Get user ID from session/token (임시로 1 사용)
-      const userId = 8; // TODO: 실제 로그인된 사용자 ID 가져오기
+      // Get JWT token from localStorage
+      const token = localStorage.getItem('token');
+      if (!token) {
+        alert('인증 토큰이 없습니다. 다시 로그인해주세요.');
+        navigate('/login');
+        return;
+      }
 
       // API call
       const response = await fetch(`${API_BASE_URL}/contents`, {
         method: 'POST',
         headers: {
-          'X-User-Id': userId.toString(),
+          'Authorization': `Bearer ${token}`,
         },
         body: formData,
       });
@@ -309,25 +324,16 @@ export const ContentRegistrationPage = () => {
                     />
                     <span>콘텐츠 첨부</span>
                   </label>
-                  <label className="radio-label">
-                    <input
-                      type="radio"
-                      name="contentFormat"
-                      value="file"
-                      checked={contentFormat === 'file'}
-                      onChange={(e) => setContentFormat(e.target.value)}
-                    />
-                    <span>파일</span>
-                  </label>
-                  {contentFormat === 'file' && (
+                  {(contentFormat === 'attachment' || contentFormat === 'file') && (
                     <div className="file-upload-area">
                       <p className="upload-text">파일선택</p>
-                      <p className="upload-hint">480 * 240 사이즈 권장(JPG, PNG, GIF, JPEG)</p>
+                      <p className="upload-hint">모든 파일 형식 지원 (이미지, 영상, 문서 등)</p>
                       <input
                         type="file"
                         onChange={handleFileChange}
-                        value={file?.name}
+                        accept="image/*,video/*,audio/*,.pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.hwp"
                       />
+                      {file && <p className="file-name">선택된 파일: {file.name}</p>}
                     </div>
                   )}
                   <label className="radio-label">
@@ -380,8 +386,9 @@ export const ContentRegistrationPage = () => {
                   <input
                     type="file"
                     onChange={handleThumbnailChange}
-                    value={thumbnail?.name}
+                    accept="image/*"
                   />
+                  {thumbnail && <p className="file-name">선택된 파일: {thumbnail.name}</p>}
                 </div>
               </div>
             </div>
