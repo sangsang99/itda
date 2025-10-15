@@ -194,7 +194,7 @@ export const ContentRegistrationPage = () => {
                 등록정보 제시용
               </button>
               <button type="button" className="btn btn-teal">
-                콘텐츠만평
+                콘텐츠보관함
               </button>
             </div>
           </div>

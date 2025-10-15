@@ -198,13 +198,6 @@ export const ComponentName = ({ userInfo }: ComponentNameProps) => {
 3. **UserProfile** (`front/src/components/UserProfile/`)
    - User information card with profile image and stats
 
-4. **MyStorage** (`front/src/components/MyStorage/`)
-   - Storage statistics and content counters
-
-5. **ContentList** (`front/src/components/ContentList/`)
-   - Grid-based content listing with cards
-   - Supports filtering by categories
-
 ### Component Naming Conventions
 
 - **Component Names**: PascalCase (e.g., `Header`, `UserProfile`)
@@ -654,8 +647,6 @@ output_sample/
 │   │   │   ├── Header/       # Component folder with CSS
 │   │   │   │   ├── Header.tsx
 │   │   │   │   └── Header.css
-│   │   │   ├── ContentList/
-│   │   │   ├── MyStorage/
 │   │   │   ├── UserProfile/
 │   │   │   └── Footer.tsx    # Simple component (single file)
 │   │   │
@@ -663,7 +654,6 @@ output_sample/
 │   │   │   ├── MainPage/     # Page with styles
 │   │   │   │   ├── MainPage.tsx
 │   │   │   │   └── MainPage.css
-│   │   │   ├── HomePage.tsx
 │   │   │   └── LoginPage.tsx
 │   │   │
 │   │   ├── services/         # API services & mock data
