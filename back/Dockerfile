@@ -33,9 +33,11 @@ RUN groupadd -r itda && useradd -r -g itda itda
 # Copy JAR from builder stage
 COPY --from=builder /app/build/libs/*.jar app.jar
 
-# Create asset directory and change ownership
-RUN mkdir -p /app/asset && \
-    chown -R itda:itda /app
+# Create asset directories
+RUN mkdir -p /app/asset/content /app/asset/thumbnail
+
+# Change ownership of app directory
+RUN chown -R itda:itda /app
 
 # Switch to non-root user
 USER itda
@@ -48,4 +50,4 @@ HEALTHCHECK --interval=30s --timeout=3s --start-period=60s --retries=3 \
     CMD curl -f http://localhost:8080/api/health || exit 1
 
 # Run application
-ENTRYPOINT ["java", "-jar", "app.jar"]
+CMD ["java", "-jar", "app.jar"]

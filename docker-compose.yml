@@ -11,6 +11,8 @@ volumes:
     driver: local
   jenkins_home:
     driver: local
+  asset-data:
+    driver: local
 
 services:
   # MySQL Database
@@ -81,7 +83,7 @@ services:
     networks:
       - itda-network
     volumes:
-      - ./asset:/app/asset
+      - asset-data:/app/asset
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
       timeout: 30s
