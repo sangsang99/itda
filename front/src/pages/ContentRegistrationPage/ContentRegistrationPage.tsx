@@ -169,6 +169,10 @@ export const ContentRegistrationPage = () => {
     window.history.back();
   };
 
+  const handleMyBoxClick = () => {
+    navigate('/mybox');
+  };
+
   return (
     <div className="content-registration-page">
       <Header />
@@ -193,7 +197,7 @@ export const ContentRegistrationPage = () => {
               <button type="button" className="btn btn-outline btn-pink">
                 등록정보 제시용
               </button>
-              <button type="button" className="btn btn-teal">
+              <button type="button" className="btn btn-teal" onClick={handleMyBoxClick}>
                 콘텐츠보관함
               </button>
             </div>

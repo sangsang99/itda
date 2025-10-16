@@ -4,8 +4,6 @@ import { useAuth } from '../../contexts/AuthContext';
 import { Header } from '../../components/Header/Header';
 import Footer from '../../components/Footer';
 import { UserProfile } from '../../components/UserProfile/UserProfile';
-import { MyStorage } from '../../components/MyStorage/MyStorage';
-import { ContentList } from '../../components/ContentList/ContentList';
 import {
   getUserInfo,
   getMyStorage,
@@ -107,7 +105,6 @@ export const MainPage = () => {
               </div>
             </section>
 
-            {myStorage && <MyStorage storage={myStorage} />}
           </div>
 
           {/* 구독 채널 소식 */}
@@ -177,13 +174,6 @@ export const MainPage = () => {
               </div>
             )}
 
-            {/* 콘텐츠 목록 */}
-            <ContentList
-              title=""
-              contents={customContents}
-              showCategories={true}
-              categories={['package', 'contents']}
-            />
           </section>
         </div>
       </main>
