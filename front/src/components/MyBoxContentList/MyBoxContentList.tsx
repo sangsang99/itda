@@ -72,14 +72,17 @@ export const MyBoxContentList = ({ contents }: MyBoxContentListProps) => {
               </div>
 
               <div className="card-content">
-                <div className="card-badges">
-                  <span className="badge gray">등록자료</span>
-                  <span className="badge gray">해당사항없음</span>
-                  <span className="badge gray">검토완료</span>
-                  <span className="badge gray">폴더 1</span>
-                  <button className="badge-btn">📖 삭제</button>
-                  <button className="badge-btn">📖 공유</button>
-                  <button className="badge-btn">⚡ 수업 링크 생성</button>
+                <div className="card-header-row">
+                  <div className="card-badges">
+                    <span className="badge gray">등록자료</span>
+                    <span className="badge gray">해당사항없음</span>
+                    <span className="badge gray">검토완료</span>
+                    <span className="badge gray">폴더 1</span>
+                    <button className="badge-btn">📖 삭제</button>
+                    <button className="badge-btn">📖 공유</button>
+                    <button className="badge-btn">⚡ 수업 링크 생성</button>
+                  </div>
+                  <span className="aspen-tag">Aspen 편집</span>
                 </div>
 
                 <h3 className="card-title">찬찬한글 기본_자음, 모음, 받침 연습</h3>
@@ -100,7 +103,6 @@ export const MyBoxContentList = ({ contents }: MyBoxContentListProps) => {
                     </span>
                     <span className="stat-date">2025-03-18</span>
                   </div>
-                  <span className="aspen-tag">Aspen 편집</span>
                 </div>
               </div>
             </div>
