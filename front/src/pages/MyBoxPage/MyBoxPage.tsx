@@ -87,6 +87,22 @@ export const MyBoxPage = () => {
             liked: false,
             createdAt: '2025-05-18',
             badges: ['패키지']
+          },{
+            id: '4',
+            title: '진진구의 기초 지식, 도형, 단위 연습',
+            thumbnail: '/placeholder-thumbnail.jpg',
+            channelName: '진진구 수학교실',
+            channelId: 'channel1',
+            type: 'package',
+            category: '#패키지',
+            school: '초등학교',
+            grade: '5학년',
+            semester: '2학기',
+            subject: '수학',
+            likeCount: 455,
+            liked: false,
+            createdAt: '2025-05-18',
+            badges: ['패키지']
           }
         ];
         setContents(mockContents);
