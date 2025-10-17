@@ -286,4 +286,16 @@ public class ContentController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
+
+    /**
+     * 인기 콘텐츠 조회 (조회수 높은 순)
+     */
+    @GetMapping("/popular")
+    public ResponseEntity<List<ContentResponse>> getPopularContents(
+            @RequestParam(defaultValue = "10") int size) {
+        log.info("인기 콘텐츠 조회: size={}", size);
+
+        List<ContentResponse> contents = contentService.getPopularContents(size);
+        return ResponseEntity.ok(contents);
+    }
 }

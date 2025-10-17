@@ -10,6 +10,7 @@ import {
   getSubscribedChannelNews,
   getCustomContents,
   getCustomSubjects,
+  getPopularContents,
 } from '../../services/apiService';
 import type { UserInfo, MyStorage as MyStorageType, ContentItem, CustomSubject } from '../../types';
 import { handleImageError, createDefaultThumbnail } from '../../utils/imageUtils';
@@ -23,6 +24,7 @@ export const MainPage = () => {
   const [subscribedNews, setSubscribedNews] = useState<ContentItem[]>([]);
   const [customContents, setCustomContents] = useState<ContentItem[]>([]);
   const [customSubjects, setCustomSubjects] = useState<CustomSubject[]>([]);
+  const [popularContents, setPopularContents] = useState<ContentItem[]>([]);
   const [loading, setLoading] = useState(true);
 
   // 로그인하지 않은 경우 로그인 페이지로 리다이렉트
@@ -41,12 +43,13 @@ export const MainPage = () => {
       try {
         setLoading(true);
 
-        const [mockUser, storage, news, contents, subjects] = await Promise.all([
+        const [mockUser, storage, news, contents, subjects, popular] = await Promise.all([
           getUserInfo(),
           getMyStorage(),
           getSubscribedChannelNews(),
           getCustomContents(),
           getCustomSubjects(),
+          getPopularContents(10),
         ]);
 
         setUserInfo(mockUser);
@@ -54,6 +57,7 @@ export const MainPage = () => {
         setSubscribedNews(news);
         setCustomContents(contents);
         setCustomSubjects(subjects);
+        setPopularContents(popular);
       } catch (error) {
         console.error('데이터 로드 실패:', error);
       } finally {
@@ -106,6 +110,49 @@ export const MainPage = () => {
             </section>
 
           </div>
+
+          {/* 인기 콘텐츠 (조회수 높은 순) */}
+          {popularContents.length > 0 && (
+            <section className="subscribed-news">
+              <div className="section-header">
+                <h2>🔥 인기 콘텐츠</h2>
+                <span className="more-link" style={{fontSize: '14px', color: '#666'}}>
+                  조회수 높은 순
+                </span>
+              </div>
+              <div className="news-list">
+                {popularContents.map((content) => (
+                  <div key={content.id} className="news-card">
+                    <div className="news-thumbnail">
+                      <img
+                        src={content.thumbnail || createDefaultThumbnail(content.title)}
+                        alt={content.title}
+                        onError={(e) => handleImageError(e, createDefaultThumbnail('썸네일 없음'))}
+                      />
+                      <div style={{
+                        position: 'absolute',
+                        top: '8px',
+                        right: '8px',
+                        background: 'rgba(0,0,0,0.7)',
+                        color: 'white',
+                        padding: '4px 8px',
+                        borderRadius: '4px',
+                        fontSize: '12px'
+                      }}>
+                        👁 {content.viewCount}
+                      </div>
+                    </div>
+                    <div className="news-info">
+                      <p className="news-title">{content.title}</p>
+                      <p className="news-channel">
+                        {content.school} {content.grade} {content.subject}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
 
           {/* 구독 채널 소식 */}
           {subscribedNews.length > 0 && (

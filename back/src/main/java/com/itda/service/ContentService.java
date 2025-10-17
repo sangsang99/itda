@@ -7,8 +7,12 @@ import com.itda.repository.ContentRepository;
 import com.itda.util.FileUploadUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -29,6 +33,7 @@ public class ContentService {
      * 콘텐츠 등록
      */
     @Transactional
+    @CacheEvict(value = {"userContents", "popularContents"}, allEntries = true)
     public ContentResponse createContent(ContentRequest request, MultipartFile file, MultipartFile thumbnail, Long userId) {
         log.info("콘텐츠 등록 시작: userId={}, title={}", userId, request.getTitle());
 
@@ -169,6 +174,7 @@ public class ContentService {
      * 콘텐츠 삭제 (Soft Delete)
      */
     @Transactional
+    @CacheEvict(value = {"userContents", "popularContents"}, allEntries = true)
     public void deleteContent(Long contentId, Long userId) {
         log.info("콘텐츠 삭제 시작: contentId={}, userId={}", contentId, userId);
 
@@ -185,9 +191,11 @@ public class ContentService {
     }
 
     /**
-     * 사용자별 콘텐츠 목록 조회
+     * 사용자별 콘텐츠 목록 조회 (캐싱 적용)
      */
+    @Cacheable(value = "userContents", key = "#userId + '_' + #pageable.pageNumber + '_' + #pageable.pageSize")
     public Page<ContentResponse> getContentsByUser(Long userId, Pageable pageable) {
+        log.info("DB에서 사용자 콘텐츠 조회: userId={}", userId);
         Page<Content> contents = contentRepository.findByUserId(userId, pageable);
         return contents.map(ContentResponse::from);
     }
@@ -262,6 +270,19 @@ public class ContentService {
                 .orElseThrow(() -> new IllegalArgumentException("콘텐츠를 찾을 수 없습니다: " + contentId));
         content.setDownloadCount(content.getDownloadCount() + 1);
         contentRepository.save(content);
+    }
+
+    /**
+     * 인기 콘텐츠 조회 (조회수 높은 순, 캐싱 적용)
+     */
+    @Cacheable(value = "popularContents", key = "#size")
+    public List<ContentResponse> getPopularContents(int size) {
+        log.info("DB에서 인기 콘텐츠 조회: size={}", size);
+        Pageable pageable = PageRequest.of(0, size, Sort.by(Sort.Direction.DESC, "viewCount"));
+        Page<Content> contents = contentRepository.findByPublicStatus("public", pageable);
+        return contents.stream()
+                .map(ContentResponse::from)
+                .collect(Collectors.toList());
     }
 
     /**

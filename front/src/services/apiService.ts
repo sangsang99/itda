@@ -313,3 +313,22 @@ export const deleteContent = async (contentId: string): Promise<void> => {
     throw error;
   }
 };
+
+// 인기 콘텐츠 조회 (조회수 높은 순)
+export const getPopularContents = async (size: number = 10): Promise<ContentItem[]> => {
+  const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:18080/api';
+
+  try {
+    const response = await fetch(`${API_BASE_URL}/contents/popular?size=${size}`);
+
+    if (!response.ok) {
+      throw new Error(`인기 콘텐츠 조회 실패: ${response.statusText}`);
+    }
+
+    const data: BackendContentResponse[] = await response.json();
+    return data.map(convertBackendContentToContentItem);
+  } catch (error) {
+    console.error('인기 콘텐츠 조회 오류:', error);
+    throw error;
+  }
+};
