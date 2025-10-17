@@ -74,10 +74,13 @@ export const MyBoxContentList = ({ contents }: MyBoxContentListProps) => {
               <div className="card-content">
                 <div className="card-header-row">
                   <div className="card-badges">
-                    <span className="badge gray">등록자료</span>
-                    <span className="badge gray">해당사항없음</span>
-                    <span className="badge gray">검토완료</span>
-                    <span className="badge gray">폴더 1</span>
+                    <span className="badge gray">{content.category}</span>
+                    <span className="badge gray">{content.school}</span>
+                    <span className="badge gray">{content.grade}</span>
+                    <span className="badge gray">{content.subject}</span>
+                    {content.badges && content.badges.map((badge, idx) => (
+                      <span key={idx} className="badge gray">{badge}</span>
+                    ))}
                     <button className="badge-btn">📖 삭제</button>
                     <button className="badge-btn">📖 공유</button>
                     <button className="badge-btn">⚡ 수업 링크 생성</button>
@@ -85,23 +88,23 @@ export const MyBoxContentList = ({ contents }: MyBoxContentListProps) => {
                   <span className="aspen-tag">Aspen 편집</span>
                 </div>
 
-                <h3 className="card-title">찬찬한글 기본_자음, 모음, 받침 연습</h3>
+                <h3 className="card-title">{content.title}</h3>
 
                 <div className="card-footer">
                   <div className="card-stats">
                     <span className="stat-item">
                       <span className="stat-icon">👁</span>
-                      <span>455</span>
+                      <span>{content.viewCount || 0}</span>
                     </span>
                     <span className="stat-item">
-                      <span className="stat-icon">💬</span>
-                      <span>2</span>
+                      <span className="stat-icon">📥</span>
+                      <span>{content.downloadCount || 0}</span>
                     </span>
                     <span className="stat-item">
                       <span className="stat-icon">♡</span>
-                      <span>11</span>
+                      <span>{content.likeCount || 0}</span>
                     </span>
-                    <span className="stat-date">2025-03-18</span>
+                    <span className="stat-date">{content.createdAt}</span>
                   </div>
                 </div>
               </div>

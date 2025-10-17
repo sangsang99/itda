@@ -37,7 +37,9 @@ export interface ContentItem {
   grade: string;
   semester: string;
   subject: string;
+  viewCount: number;
   likeCount: number;
+  downloadCount: number;
   liked: boolean;
   createdAt: string;
   badges?: string[];

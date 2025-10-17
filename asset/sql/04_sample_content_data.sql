@@ -1,8 +1,10 @@
 -- 샘플 콘텐츠 데이터 추가
--- 기존 사용자 ID (1번 사용자, teacher)를 사용하여 샘플 데이터 생성
+-- 기존 사용자 ID를 사용하여 샘플 데이터 생성
+-- user_id = 2 (teacher01 - 김선생)
+-- user_id = 3 (teacher02 - 이선생)
 
 -- 기존 데이터 삭제 (필요한 경우)
--- DELETE FROM content WHERE user_id = 1;
+-- DELETE FROM content WHERE user_id IN (2, 3);
 
 -- 샘플 콘텐츠 데이터
 INSERT INTO content (
@@ -25,7 +27,7 @@ INSERT INTO content (
     'publicDomain',
     'public',
     'storage',
-    1,
+    2,
     128,
     15,
     8
@@ -45,7 +47,7 @@ INSERT INTO content (
     'publicDomain',
     'public',
     'storage',
-    1,
+    3,
     256,
     32,
     18
@@ -65,7 +67,7 @@ INSERT INTO content (
     'ccl',
     'public',
     'storage',
-    1,
+    3,
     89,
     12,
     5
@@ -85,7 +87,7 @@ INSERT INTO content (
     'publicDomain',
     'public',
     'storage',
-    1,
+    2,
     175,
     28,
     12
@@ -105,7 +107,7 @@ INSERT INTO content (
     'publicDomain',
     'public',
     'storage',
-    1,
+    3,
     203,
     41,
     22
@@ -125,7 +127,7 @@ INSERT INTO content (
     'publicDomain',
     'public',
     'storage',
-    1,
+    2,
     312,
     56,
     35
@@ -145,7 +147,7 @@ INSERT INTO content (
     'ccl',
     'private',
     'storage',
-    1,
+    2,
     98,
     8,
     3
@@ -165,13 +167,14 @@ INSERT INTO content (
     'publicDomain',
     'public',
     'storage',
-    1,
+    2,
     445,
     78,
     42
 );
 
 -- 데이터 확인
+-- teacher01 (user_id=2) 콘텐츠 조회
 SELECT
     content_id,
     title,
@@ -185,5 +188,22 @@ SELECT
     like_count,
     created_at
 FROM content
-WHERE user_id = 1
+WHERE user_id = 2
+ORDER BY created_at DESC;
+
+-- teacher02 (user_id=3) 콘텐츠 조회
+SELECT
+    content_id,
+    title,
+    content_type,
+    school_level,
+    grade,
+    semester,
+    subject,
+    public_status,
+    view_count,
+    like_count,
+    created_at
+FROM content
+WHERE user_id = 3
 ORDER BY created_at DESC;

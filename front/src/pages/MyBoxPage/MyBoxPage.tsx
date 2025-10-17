@@ -11,7 +11,7 @@ import './MyBoxPage.css';
 
 export const MyBoxPage = () => {
   const navigate = useNavigate();
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, user } = useAuth();
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<string>('콘텐츠 보관함');
@@ -26,7 +26,7 @@ export const MyBoxPage = () => {
 
   useEffect(() => {
     const loadData = async () => {
-      if (!isAuthenticated) {
+      if (!isAuthenticated || !user) {
         return;
       }
 
@@ -35,9 +35,9 @@ export const MyBoxPage = () => {
         const mockUser = await getUserInfo();
         setUserInfo(mockUser);
 
-        // API에서 콘텐츠 목록 가져오기
+        // API에서 콘텐츠 목록 가져오기 - 실제 로그인한 사용자 ID 사용
         try {
-          const userContents = await getUserContents(undefined, 0, 20, 'createdAt', 'DESC');
+          const userContents = await getUserContents(user.userId, 0, 20, 'createdAt', 'DESC');
           setContents(userContents);
         } catch (error) {
           console.error('콘텐츠 목록 조회 실패:', error);
@@ -52,7 +52,7 @@ export const MyBoxPage = () => {
     };
 
     loadData();
-  }, [isAuthenticated]);
+  }, [isAuthenticated, user]);
 
   if (loading) {
     return (

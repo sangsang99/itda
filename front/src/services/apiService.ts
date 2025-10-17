@@ -215,7 +215,9 @@ const convertBackendContentToContentItem = (backendContent: BackendContentRespon
     grade: backendContent.grade ? `${backendContent.grade}학년` : DEFAULT_VALUES.NO_DATA,
     semester: backendContent.semester ? `${backendContent.semester}학기` : DEFAULT_VALUES.NO_DATA,
     subject: SUBJECT_MAP[backendContent.subject] || backendContent.subject || DEFAULT_VALUES.NO_DATA,
+    viewCount: backendContent.viewCount || 0,
     likeCount: backendContent.likeCount || 0,
+    downloadCount: backendContent.downloadCount || 0,
     liked: DEFAULT_VALUES.LIKED, // API에 없는 필드 - 기본값
     createdAt: backendContent.createdAt ? backendContent.createdAt.split('T')[0] : '',
     badges: [PUBLIC_STATUS_MAP[backendContent.publicStatus] || DEFAULT_VALUES.NO_DATA],
@@ -224,7 +226,7 @@ const convertBackendContentToContentItem = (backendContent: BackendContentRespon
 
 // 사용자 콘텐츠 목록 조회 (페이지네이션)
 export const getUserContents = async (
-  userId?: number,
+  userId: number,
   page: number = 0,
   size: number = 20,
   sortBy: string = 'createdAt',
@@ -238,18 +240,9 @@ export const getUserContents = async (
 
   const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:18080/api';
 
-  // userId가 없으면 현재 로그인한 사용자의 콘텐츠를 조회하기 위해 먼저 사용자 정보를 가져옴
-  let targetUserId = userId;
-
-  if (!targetUserId) {
-    // 사용자 정보에서 userId 추출 (여기서는 임시로 1을 사용, 실제로는 인증 컨텍스트에서 가져와야 함)
-    // 또는 /api/user/me 같은 엔드포인트를 호출해서 현재 사용자 ID를 가져와야 함
-    targetUserId = 1; // TODO: 실제 사용자 ID로 교체 필요
-  }
-
   try {
     const response = await fetch(
-      `${API_BASE_URL}/contents/user/${targetUserId}?page=${page}&size=${size}&sortBy=${sortBy}&direction=${direction}`,
+      `${API_BASE_URL}/contents/user/${userId}?page=${page}&size=${size}&sortBy=${sortBy}&direction=${direction}`,
       {
         method: 'GET',
         headers: {
