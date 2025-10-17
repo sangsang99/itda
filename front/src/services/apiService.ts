@@ -285,3 +285,31 @@ export const getUserContents = async (
     throw error;
   }
 };
+
+// 콘텐츠 삭제
+export const deleteContent = async (contentId: string): Promise<void> => {
+  const token = localStorage.getItem('token');
+
+  if (!token) {
+    throw new Error('인증 토큰이 없습니다.');
+  }
+
+  const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:18080/api';
+
+  try {
+    const response = await fetch(`${API_BASE_URL}/contents/${contentId}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`콘텐츠 삭제 실패: ${response.statusText}`);
+    }
+  } catch (error) {
+    console.error('콘텐츠 삭제 오류:', error);
+    throw error;
+  }
+};

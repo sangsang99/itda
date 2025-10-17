@@ -1,13 +1,34 @@
 import { useState } from 'react';
 import type { ContentItem } from '../../types';
+import { deleteContent } from '../../services/apiService';
 import './MyBoxContentList.css';
 
 interface MyBoxContentListProps {
   contents: ContentItem[];
+  onContentDeleted?: () => void;
 }
 
-export const MyBoxContentList = ({ contents }: MyBoxContentListProps) => {
+export const MyBoxContentList = ({ contents, onContentDeleted }: MyBoxContentListProps) => {
   const [viewMode, setViewMode] = useState<'list' | 'grid'>('list');
+
+  const handleDelete = async (contentId: string, contentTitle: string) => {
+    if (!window.confirm(`"${contentTitle}" 콘텐츠를 삭제하시겠습니까?`)) {
+      return;
+    }
+
+    try {
+      await deleteContent(contentId);
+      alert('콘텐츠가 삭제되었습니다.');
+
+      // 부모 컴포넌트에 삭제 완료를 알림
+      if (onContentDeleted) {
+        onContentDeleted();
+      }
+    } catch (error) {
+      console.error('삭제 실패:', error);
+      alert(error instanceof Error ? error.message : '콘텐츠 삭제 중 오류가 발생했습니다.');
+    }
+  };
 
   return (
     <div className="mybox-content-list">
@@ -81,7 +102,7 @@ export const MyBoxContentList = ({ contents }: MyBoxContentListProps) => {
                     {content.badges && content.badges.map((badge, idx) => (
                       <span key={idx} className="badge gray">{badge}</span>
                     ))}
-                    <button className="badge-btn">📖 삭제</button>
+                    <button className="badge-btn" onClick={() => handleDelete(content.id, content.title)}>📖 삭제</button>
                     <button className="badge-btn">📖 공유</button>
                     <button className="badge-btn">⚡ 수업 링크 생성</button>
                   </div>
