@@ -8,6 +8,13 @@ import {
   mockCustomContents,
   mockCustomSubjects,
 } from './mockData';
+import {
+  SCHOOL_LEVEL_MAP,
+  SUBJECT_MAP,
+  CONTENT_TYPE_MAP,
+  PUBLIC_STATUS_MAP,
+  DEFAULT_VALUES,
+} from '../constants/contentConstants';
 
 // API 모드 설정 (환경 변수로 제어 가능)
 let apiMode: ApiMode = (import.meta.env.VITE_API_MODE as ApiMode) || 'mock';
@@ -158,4 +165,113 @@ export const getContentDetail = async (contentId: string): Promise<ContentItem |
 
   const response = await apiClient.get<ContentItem>(`/api/contents/${contentId}`);
   return response.data;
+};
+
+// 백엔드 ContentResponse 타입
+interface BackendContentResponse {
+  contentId: number;
+  title: string;
+  description: string;
+  contentType: string;
+  schoolLevel: string;
+  grade: string;
+  semester: string;
+  subject: string;
+  achievementStandard: string;
+  contentFormat: string;
+  contentUrl: string;
+  fileName: string;
+  fileSize: number;
+  fileExtension: string;
+  parentContentId: number | null;
+  isSupportMaterial: boolean;
+  thumbnailPath: string | null;
+  keywords: string;
+  copyrightType: string;
+  usageCondition: string;
+  publicStatus: string;
+  storageType: string;
+  channelId: number | null;
+  folderPath: string | null;
+  userId: number;
+  viewCount: number;
+  likeCount: number;
+  downloadCount: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+// 백엔드 응답을 프론트엔드 ContentItem으로 변환
+const convertBackendContentToContentItem = (backendContent: BackendContentResponse): ContentItem => {
+  return {
+    id: String(backendContent.contentId),
+    title: backendContent.title,
+    thumbnail: backendContent.thumbnailPath || DEFAULT_VALUES.THUMBNAIL,
+    channelName: DEFAULT_VALUES.CHANNEL_NAME, // API에 없는 필드 - 기본값
+    channelId: backendContent.channelId ? String(backendContent.channelId) : DEFAULT_VALUES.CHANNEL_ID,
+    type: DEFAULT_VALUES.CONTENT_TYPE as 'package' | 'contents' | 'question' | 'exam', // API에 없는 필드 - 기본값
+    category: CONTENT_TYPE_MAP[backendContent.contentType] || DEFAULT_VALUES.NO_DATA,
+    school: SCHOOL_LEVEL_MAP[backendContent.schoolLevel] || backendContent.schoolLevel || DEFAULT_VALUES.NO_DATA,
+    grade: backendContent.grade ? `${backendContent.grade}학년` : DEFAULT_VALUES.NO_DATA,
+    semester: backendContent.semester ? `${backendContent.semester}학기` : DEFAULT_VALUES.NO_DATA,
+    subject: SUBJECT_MAP[backendContent.subject] || backendContent.subject || DEFAULT_VALUES.NO_DATA,
+    likeCount: backendContent.likeCount || 0,
+    liked: DEFAULT_VALUES.LIKED, // API에 없는 필드 - 기본값
+    createdAt: backendContent.createdAt ? backendContent.createdAt.split('T')[0] : '',
+    badges: [PUBLIC_STATUS_MAP[backendContent.publicStatus] || DEFAULT_VALUES.NO_DATA],
+  };
+};
+
+// 사용자 콘텐츠 목록 조회 (페이지네이션)
+export const getUserContents = async (
+  userId?: number,
+  page: number = 0,
+  size: number = 20,
+  sortBy: string = 'createdAt',
+  direction: string = 'DESC'
+): Promise<ContentItem[]> => {
+  const token = localStorage.getItem('token');
+
+  if (!token) {
+    throw new Error('인증 토큰이 없습니다.');
+  }
+
+  const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:18080/api';
+
+  // userId가 없으면 현재 로그인한 사용자의 콘텐츠를 조회하기 위해 먼저 사용자 정보를 가져옴
+  let targetUserId = userId;
+
+  if (!targetUserId) {
+    // 사용자 정보에서 userId 추출 (여기서는 임시로 1을 사용, 실제로는 인증 컨텍스트에서 가져와야 함)
+    // 또는 /api/user/me 같은 엔드포인트를 호출해서 현재 사용자 ID를 가져와야 함
+    targetUserId = 1; // TODO: 실제 사용자 ID로 교체 필요
+  }
+
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/contents/user/${targetUserId}?page=${page}&size=${size}&sortBy=${sortBy}&direction=${direction}`,
+      {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`콘텐츠 목록 조회 실패: ${response.statusText}`);
+    }
+
+    const data = await response.json();
+
+    // Spring의 Page 응답에서 content 배열 추출
+    const contents: BackendContentResponse[] = data.content || [];
+
+    // 백엔드 응답을 프론트엔드 형식으로 변환
+    return contents.map(convertBackendContentToContentItem);
+  } catch (error) {
+    console.error('콘텐츠 목록 조회 오류:', error);
+    throw error;
+  }
 };

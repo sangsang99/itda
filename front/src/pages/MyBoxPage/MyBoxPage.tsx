@@ -5,7 +5,7 @@ import { Header } from '../../components/Header/Header';
 import Footer from '../../components/Footer';
 import { MyBoxSidebar } from '../../components/MyBoxSidebar/MyBoxSidebar';
 import { MyBoxContentList } from '../../components/MyBoxContentList/MyBoxContentList';
-import { getUserInfo } from '../../services/apiService';
+import { getUserInfo, getUserContents } from '../../services/apiService';
 import type { UserInfo, ContentItem } from '../../types';
 import './MyBoxPage.css';
 
@@ -35,125 +35,15 @@ export const MyBoxPage = () => {
         const mockUser = await getUserInfo();
         setUserInfo(mockUser);
 
-        // Mock 데이터 - 실제로는 API에서 가져와야 합니다
-        const mockContents: ContentItem[] = [
-          {
-            id: '1',
-            title: '진진구의 기초 지식, 도형, 단위 연습',
-            thumbnail: '/placeholder-thumbnail.jpg',
-            channelName: '진진구 수학교실',
-            channelId: 'channel1',
-            type: 'package',
-            category: '#패키지',
-            school: '초등학교',
-            grade: '5학년',
-            semester: '2학기',
-            subject: '수학',
-            likeCount: 455,
-            liked: false,
-            createdAt: '2025-05-18',
-            badges: ['패키지']
-          },
-          {
-            id: '2',
-            title: '진진구의 기초 지식, 도형, 단위 연습',
-            thumbnail: '/placeholder-thumbnail.jpg',
-            channelName: '진진구 수학교실',
-            channelId: 'channel1',
-            type: 'package',
-            category: '#패키지',
-            school: '초등학교',
-            grade: '5학년',
-            semester: '2학기',
-            subject: '수학',
-            likeCount: 455,
-            liked: false,
-            createdAt: '2025-05-18',
-            badges: ['패키지']
-          },
-          {
-            id: '3',
-            title: '진진구의 기초 지식, 도형, 단위 연습',
-            thumbnail: '/placeholder-thumbnail.jpg',
-            channelName: '진진구 수학교실',
-            channelId: 'channel1',
-            type: 'package',
-            category: '#패키지',
-            school: '초등학교',
-            grade: '5학년',
-            semester: '2학기',
-            subject: '수학',
-            likeCount: 455,
-            liked: false,
-            createdAt: '2025-05-18',
-            badges: ['패키지']
-          },{
-            id: '4',
-            title: '진진구의 기초 지식, 도형, 단위 연습',
-            thumbnail: '/placeholder-thumbnail.jpg',
-            channelName: '진진구 수학교실',
-            channelId: 'channel1',
-            type: 'package',
-            category: '#패키지',
-            school: '초등학교',
-            grade: '5학년',
-            semester: '2학기',
-            subject: '수학',
-            likeCount: 455,
-            liked: false,
-            createdAt: '2025-05-18',
-            badges: ['패키지']
-          },{
-            id: '5',
-            title: '진진구의 기초 지식, 도형, 단위 연습',
-            thumbnail: '/placeholder-thumbnail.jpg',
-            channelName: '진진구 수학교실',
-            channelId: 'channel1',
-            type: 'package',
-            category: '#패키지',
-            school: '초등학교',
-            grade: '5학년',
-            semester: '2학기',
-            subject: '수학',
-            likeCount: 455,
-            liked: false,
-            createdAt: '2025-05-18',
-            badges: ['패키지']
-          },{
-            id: '6',
-            title: '진진구의 기초 지식, 도형, 단위 연습',
-            thumbnail: '/placeholder-thumbnail.jpg',
-            channelName: '진진구 수학교실',
-            channelId: 'channel1',
-            type: 'package',
-            category: '#패키지',
-            school: '초등학교',
-            grade: '5학년',
-            semester: '2학기',
-            subject: '수학',
-            likeCount: 455,
-            liked: false,
-            createdAt: '2025-05-18',
-            badges: ['패키지']
-          },{
-            id: '7',
-            title: '진진구의 기초 지식, 도형, 단위 연습',
-            thumbnail: '/placeholder-thumbnail.jpg',
-            channelName: '진진구 수학교실',
-            channelId: 'channel1',
-            type: 'package',
-            category: '#패키지',
-            school: '초등학교',
-            grade: '5학년',
-            semester: '2학기',
-            subject: '수학',
-            likeCount: 455,
-            liked: false,
-            createdAt: '2025-05-18',
-            badges: ['패키지']
-          }
-        ];
-        setContents(mockContents);
+        // API에서 콘텐츠 목록 가져오기
+        try {
+          const userContents = await getUserContents(undefined, 0, 20, 'createdAt', 'DESC');
+          setContents(userContents);
+        } catch (error) {
+          console.error('콘텐츠 목록 조회 실패:', error);
+          // 에러 발생 시 빈 배열 설정
+          setContents([]);
+        }
       } catch (error) {
         console.error('데이터 로드 실패:', error);
       } finally {
