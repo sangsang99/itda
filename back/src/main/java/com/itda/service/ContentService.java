@@ -71,6 +71,10 @@ public class ContentService {
         if (thumbnail != null && !thumbnail.isEmpty()) {
             String thumbnailPath = fileUploadUtil.uploadThumbnail(thumbnail, userId);
             content.setThumbnailPath(thumbnailPath);
+        } else {
+            // 썸네일이 없으면 과목에 맞는 Unsplash 이미지 자동 설정
+            String autoThumbnail = getDefaultThumbnailBySubject(request.getSubject());
+            content.setThumbnailPath(autoThumbnail);
         }
 
         Content savedContent = contentRepository.save(content);
@@ -258,5 +262,23 @@ public class ContentService {
                 .orElseThrow(() -> new IllegalArgumentException("콘텐츠를 찾을 수 없습니다: " + contentId));
         content.setDownloadCount(content.getDownloadCount() + 1);
         contentRepository.save(content);
+    }
+
+    /**
+     * 과목별 기본 썸네일 반환 (Unsplash 이미지)
+     */
+    private String getDefaultThumbnailBySubject(String subject) {
+        if (subject == null) {
+            return "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=400&h=300&fit=crop"; // 기본 교육 이미지
+        }
+
+        return switch (subject.toLowerCase()) {
+            case "math" -> "https://images.unsplash.com/photo-1509228468518-180dd4864904?w=400&h=300&fit=crop"; // 수학
+            case "korean" -> "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=400&h=300&fit=crop"; // 국어/책
+            case "english" -> "https://images.unsplash.com/photo-1546410531-bb4caa6b424d?w=400&h=300&fit=crop"; // 영어
+            case "science" -> "https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=400&h=300&fit=crop"; // 과학
+            case "social" -> "https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?w=400&h=300&fit=crop"; // 사회
+            default -> "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=400&h=300&fit=crop"; // 기본 교육 이미지
+        };
     }
 }
