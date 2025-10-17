@@ -207,6 +207,12 @@ const convertBackendContentToContentItem = (backendContent: BackendContentRespon
   // 썸네일 결정: thumbnailPath가 있으면 사용, 없으면 과목에 맞는 Unsplash 이미지
   const getThumbnail = () => {
     if (backendContent.thumbnailPath) {
+      // 상대 경로인 경우 백엔드 URL을 앞에 붙임
+      if (backendContent.thumbnailPath.startsWith('/')) {
+        const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:18080';
+        return `${API_BASE}${backendContent.thumbnailPath}`;
+      }
+      // 이미 완전한 URL인 경우 (http:// 또는 https://)
       return backendContent.thumbnailPath;
     }
     // 과목별 썸네일 선택

@@ -49,9 +49,8 @@ public class SecurityConfig {
                 .requestMatchers("/health", "/actuator/health").permitAll()
                 .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
                 .requestMatchers("/api/auth/**").permitAll()
-                .requestMatchers("/api/contents/user/**").permitAll()
-                .requestMatchers("/api/contents/public").permitAll()
-                .requestMatchers("/api/contents/{contentId}").permitAll()
+                .requestMatchers("/api/contents/**").permitAll()
+                .requestMatchers("/thumbnail/**", "/content/**").permitAll()
                 .anyRequest().authenticated()
             )
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
