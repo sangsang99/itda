@@ -14,6 +14,7 @@ import {
   CONTENT_TYPE_MAP,
   PUBLIC_STATUS_MAP,
   DEFAULT_VALUES,
+  CATEGORY_THUMBNAILS,
 } from '../constants/contentConstants';
 
 // API 모드 설정 (환경 변수로 제어 가능)
@@ -203,10 +204,20 @@ interface BackendContentResponse {
 
 // 백엔드 응답을 프론트엔드 ContentItem으로 변환
 const convertBackendContentToContentItem = (backendContent: BackendContentResponse): ContentItem => {
+  // 썸네일 결정: thumbnailPath가 있으면 사용, 없으면 과목에 맞는 Unsplash 이미지
+  const getThumbnail = () => {
+    if (backendContent.thumbnailPath) {
+      return backendContent.thumbnailPath;
+    }
+    // 과목별 썸네일 선택
+    const subject = backendContent.subject?.toLowerCase();
+    return CATEGORY_THUMBNAILS[subject] || CATEGORY_THUMBNAILS.default;
+  };
+
   return {
     id: String(backendContent.contentId),
     title: backendContent.title,
-    thumbnail: backendContent.thumbnailPath || DEFAULT_VALUES.THUMBNAIL,
+    thumbnail: getThumbnail(),
     channelName: DEFAULT_VALUES.CHANNEL_NAME, // API에 없는 필드 - 기본값
     channelId: backendContent.channelId ? String(backendContent.channelId) : DEFAULT_VALUES.CHANNEL_ID,
     type: DEFAULT_VALUES.CONTENT_TYPE as 'package' | 'contents' | 'question' | 'exam', // API에 없는 필드 - 기본값

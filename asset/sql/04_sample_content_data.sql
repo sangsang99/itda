@@ -9,7 +9,7 @@
 -- 샘플 콘텐츠 데이터
 INSERT INTO content (
     title, description, content_type, school_level, grade, semester, subject,
-    achievement_standard, content_format, keywords, copyright_type, usage_condition,
+    achievement_standard, content_format, thumbnail_path, keywords, copyright_type, usage_condition,
     public_status, storage_type, user_id, view_count, like_count, download_count
 ) VALUES
 (
@@ -22,6 +22,7 @@ INSERT INTO content (
     'math',
     '[4수01-11] 분수의 의미를 이해하고 읽고 쓸 수 있다',
     'attachment',
+    'https://images.unsplash.com/photo-1509228468518-180dd4864904?w=400&h=300&fit=crop',
     '수학,분수,초등수학,교육자료',
     'personal',
     'publicDomain',
@@ -42,6 +43,7 @@ INSERT INTO content (
     'english',
     '[9영01-01] 일상생활에 관한 간단한 문장을 듣고 세부 정보를 파악할 수 있다',
     'attachment',
+    'https://images.unsplash.com/photo-1546410531-bb4caa6b424d?w=400&h=300&fit=crop',
     '영어,문법,중학교,교육자료',
     'personal',
     'publicDomain',
@@ -62,6 +64,7 @@ INSERT INTO content (
     'science',
     '[10과06-01] 물질의 구성 입자를 이해하고 화학 반응식을 작성할 수 있다',
     'attachment',
+    'https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=400&h=300&fit=crop',
     '과학,화학,화학반응식,고등학교',
     'personal',
     'ccl',
@@ -82,6 +85,7 @@ INSERT INTO content (
     'korean',
     '[4국05-05] 재미있거나 감동적인 부분을 실감나게 표현하며 읽는다',
     'attachment',
+    'https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=400&h=300&fit=crop',
     '국어,동시,문학,초등학교',
     'personal',
     'publicDomain',
@@ -102,6 +106,7 @@ INSERT INTO content (
     'social',
     '[9사(지리)01-01] 세계 여러 지역의 자연환경과 인문환경을 비교한다',
     'url',
+    'https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?w=400&h=300&fit=crop',
     '사회,지리,세계지리,중학교',
     'personal',
     'publicDomain',
@@ -122,6 +127,7 @@ INSERT INTO content (
     NULL,
     NULL,
     'attachment',
+    'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=400&h=300&fit=crop',
     '창의력,사고력,비교과,프로그램',
     'personal',
     'publicDomain',
@@ -142,6 +148,7 @@ INSERT INTO content (
     NULL,
     NULL,
     'attachment',
+    'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=400&h=300&fit=crop',
     '학급운영,가이드,교사,비교과',
     'personal',
     'ccl',
@@ -162,6 +169,7 @@ INSERT INTO content (
     'math',
     '[6수01-01] 수학적 문제 해결 전략을 이해하고 적용할 수 있다',
     'attachment',
+    'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=400&h=300&fit=crop',
     '수학,문제해결,전략,초등학교',
     'personal',
     'publicDomain',

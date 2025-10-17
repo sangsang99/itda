@@ -31,12 +31,22 @@ export const PUBLIC_STATUS_MAP: Record<string, string> = {
 
 // 기본값
 export const DEFAULT_VALUES = {
-  THUMBNAIL: '/placeholder-thumbnail.jpg',
+  THUMBNAIL: 'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=400&h=300&fit=crop',
   CHANNEL_NAME: '내 콘텐츠',
   CHANNEL_ID: 'my-content',
   CONTENT_TYPE: 'contents',
   NO_DATA: '해당없음',
   LIKED: false,
+};
+
+// 카테고리별 Unsplash 썸네일
+export const CATEGORY_THUMBNAILS: Record<string, string> = {
+  math: 'https://images.unsplash.com/photo-1509228468518-180dd4864904?w=400&h=300&fit=crop', // 수학
+  korean: 'https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=400&h=300&fit=crop', // 국어/책
+  english: 'https://images.unsplash.com/photo-1546410531-bb4caa6b424d?w=400&h=300&fit=crop', // 영어
+  science: 'https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=400&h=300&fit=crop', // 과학
+  social: 'https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?w=400&h=300&fit=crop', // 사회
+  default: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=400&h=300&fit=crop', // 교육 일반
 };
 
 // 콘텐츠 형식
